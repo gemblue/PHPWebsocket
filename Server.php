@@ -74,4 +74,36 @@ class WebSocket {
     
     }
 
+    /**
+     * Handshake
+     * 
+     * Writing websocket protocol headers
+     */
+    public function handshake() {
+
+        $request = socket_read($this->client, 5000);
+
+        // Match websocket key
+        preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $request, $matches);
+        
+        $this->key = base64_encode(pack(
+            'H*',
+            sha1($matches[1] . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
+        ));
+
+        // Build websocket content header!
+        $headers = "HTTP/1.1 101 Switching Protocols\r\n";
+        $headers .= "Upgrade: websocket\r\n";
+        $headers .= "server: Upgrade\r\n";
+        $headers .= "Sec-WebSocket-Version: 13\r\n";
+        $headers .= "Sec-WebSocket-Accept: {$this->key}\r\n\r\n";
+        
+        // Writing a content.
+        socket_write($this->client, $headers, strlen($headers));
+
+        // Return log message, outside the loop.
+        echo "Writing headers .. \n";
+
+    }
+
 }
