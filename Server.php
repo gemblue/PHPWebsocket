@@ -20,4 +20,10 @@ error_reporting(E_ALL);
 
 class WebSocket {
 
+    public $address;
+    public $port;
+    public $server;
+    public $client;
+    public $key;
+    
 }
