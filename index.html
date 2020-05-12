@@ -1,0 +1,13 @@
+<html>
+<body>
+    <h1>Websocket Demo</h1>
+
+    <div>Realtime from server : <span id="message"></span></div>
+    <script>
+        var socket = new WebSocket('ws://127.0.0.1:12345/Server.php');
+        socket.onmessage = function(e) {
+            document.getElementById('message').innerHTML = e.data;
+        };
+    </script>
+</body>
+</html>
