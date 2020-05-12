@@ -60,4 +60,18 @@ class WebSocket {
     
     }
 
+    public function listen() {
+        
+        if (!socket_listen($this->server)) {
+            throw new Exception('Failed to listen');
+        }
+        
+        if (!$this->client = socket_accept($this->server)) {
+            throw new Exception('Failed to accept');
+        }
+
+        return $this;
+    
+    }
+
 }
