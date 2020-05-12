@@ -106,4 +106,23 @@ class WebSocket {
 
     }
 
+    /**
+     * Broadcast
+     * 
+     * Writing socket content with loop.
+     */
+    public function broadcast(string $message) {
+        
+        socket_write($this->client, chr(129) . chr(strlen($message)) . $message);
+ 
+     }
+     
+     /**
+      * Close.
+      */
+     public function __destruct() 
+     {
+         socket_close($this->socket);
+     }
+
 }
