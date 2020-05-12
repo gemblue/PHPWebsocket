@@ -15,124 +15,74 @@ error_reporting(E_ALL);
  * 
  * @package WebSocket
  * @author Gemblue
- *
  */
 
 class WebSocket {
 
-    public $address;
-    public $port;
+    /** Props */
     public $server;
     public $client;
-    public $key;
 
     /**
-     * Construct a socket
+     * Create a socket
      */
-    public function __construct(string $address, int $port) {
+    public function create(string $address, int $port) {
 
-        $this->address = $address;
-        $this->post = $port;
+        // Create socket.
+        $this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
-        if (!$this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) {
-            throw new Exception('Failed to create a socket');
-        }
-    }
-
-    public function setOption() {
+        socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1);
+        socket_bind($this->server, $address, $port);
+        socket_listen($this->server);
         
-        if (!socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1)) {
-            throw new Exception('Failed to set option');
-        }
-
-        return $this;
-    
-    }
-
-    public function bind() {
-        
-        
-        if (!socket_bind($this->server, $this->address, $this->port)) {
-            throw new Exception('Failed to bind');
-        }
-
-        return $this;
-    
-    }
-
-    public function listen() {
-        
-        if (!socket_listen($this->server)) {
-            throw new Exception('Failed to listen');
-        }
-        
-        if (!$this->client = socket_accept($this->server)) {
-            throw new Exception('Failed to accept');
-        }
-
-        return $this;
-    
     }
 
     /**
-     * Handshake
+     * Handshake.
      * 
-     * Writing websocket protocol headers
+     * Simple handshake to client with headers.
      */
     public function handshake() {
+        // Set client.
+        $this->client = socket_accept($this->server);
 
+        // Read client.
         $request = socket_read($this->client, 5000);
-
-        // Match websocket key
-        preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $request, $matches);
         
-        $this->key = base64_encode(pack(
+        preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $request, $matches);
+        $key = base64_encode(pack(
             'H*',
             sha1($matches[1] . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
         ));
-
-        // Build websocket content header!
+        
+        // Setup headers.
         $headers = "HTTP/1.1 101 Switching Protocols\r\n";
         $headers .= "Upgrade: websocket\r\n";
-        $headers .= "server: Upgrade\r\n";
+        $headers .= "Connection: Upgrade\r\n";
         $headers .= "Sec-WebSocket-Version: 13\r\n";
-        $headers .= "Sec-WebSocket-Accept: {$this->key}\r\n\r\n";
+        $headers .= "Sec-WebSocket-Accept: $key\r\n\r\n";
         
-        // Writing a content.
+        // Write headers.
         socket_write($this->client, $headers, strlen($headers));
-
-        // Return log message, outside the loop.
-        echo "Writing headers .. \n";
-
+    
     }
 
     /**
-     * Broadcast
+     * Emit
      * 
-     * Writing socket content with loop.
+     * Method to emit message.
      */
-    public function broadcast(string $message) {
+    public function emit($message) {
         
-        socket_write($this->client, chr(129) . chr(strlen($message)) . $message);
- 
-     }
-     
-     /**
-      * Close.
-      */
-     public function __destruct() 
-     {
-         socket_close($this->socket);
-     }
+        $response = chr(129) . chr(strlen($message)) . $message;
+        socket_write($this->client, $response);
 
+    }
 }
 
-// Mantap, sekarang kita coba.
-$websocket = new WebSocket("127.0.0.1", 12345);
+// Let's consume the class.
+$websocket = new WebSocket();
 
-$websocket->setOption()
-          ->bind()
-          ->listen()
-          ->handshake();
-
-$websocket->broadcast('Halo kakak!');
+$websocket->create("127.0.0.1", 12345);
+$websocket->handshake();
+$websocket->emit('Halo kakak, lagi apa!');
