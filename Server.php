@@ -126,3 +126,13 @@ class WebSocket {
      }
 
 }
+
+// Mantap, sekarang kita coba.
+$websocket = new WebSocket("127.0.0.1", 12345);
+
+$websocket->setOption()
+          ->bind()
+          ->listen()
+          ->handshake();
+
+$websocket->broadcast('Halo kakak!');
