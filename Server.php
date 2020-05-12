@@ -49,4 +49,15 @@ class WebSocket {
     
     }
 
+    public function bind() {
+        
+        
+        if (!socket_bind($this->server, $this->address, $this->port)) {
+            throw new Exception('Failed to bind');
+        }
+
+        return $this;
+    
+    }
+
 }
