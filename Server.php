@@ -25,5 +25,17 @@ class WebSocket {
     public $server;
     public $client;
     public $key;
-    
+
+    /**
+     * Construct a socket
+     */
+    public function __construct(string $address, int $port) {
+
+        $this->address = $address;
+        $this->post = $port;
+
+        if (!$this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) {
+            throw new Exception('Failed to create a socket');
+        }
+    }
 }
