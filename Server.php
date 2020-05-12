@@ -38,4 +38,15 @@ class WebSocket {
             throw new Exception('Failed to create a socket');
         }
     }
+
+    public function setOption() {
+        
+        if (!socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1)) {
+            throw new Exception('Failed to set option');
+        }
+
+        return $this;
+    
+    }
+
 }
