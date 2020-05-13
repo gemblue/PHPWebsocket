@@ -198,14 +198,21 @@ class WebSocket {
 				// Selama unlimited loop, terima data kiriman dari client, dari method "websocket.send" pada browser.
 				while(socket_recv($newClientsResource, $socketData, 1024, 0) >= 1)
 				{
-					// Terima data dari client, kemudian unseal dan decode json.
-					$socketMessage = $this->unseal($socketData);
-					$messageObj = json_decode($socketMessage);
-					
-					// Kirim kembali, broadcast ke semua connected client.
-					$this->send("{$messageObj->name} : {$messageObj->message}");
-					
-					break 2;
+					// Jika ada data diterima, baru proses
+					if ($socketData) {
+
+						// Terima data dari client, kemudian unseal dan decode json.
+						$socketMessage = $this->unseal($socketData);
+						$messageObj = json_decode($socketMessage);
+						
+						if (isset($messageObj->name) && isset($messageObj->message)) {
+							// Kirim kembali, broadcast ke semua connected client.
+							$this->send("{$messageObj->name} : {$messageObj->message}");
+						}
+						
+						break 2;
+
+					}
 				}
 				
 				// Dalam looping juga selalu cek, client ada yang keluar apa engga. 
