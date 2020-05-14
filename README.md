@@ -104,7 +104,7 @@ Create a HTML file for websocket client, for example `index.html` :
 
 Open `index.html` with your browser. Use 2 tab/browser for simulation. Output will be like this :
 
-!(https://i.ibb.co/PGgH8vy/screenshot-ibb-co-2020-05-14-19-17-38.png)[https://i.ibb.co/PGgH8vy/screenshot-ibb-co-2020-05-14-19-17-38.png]
+![Sample](https://i.ibb.co/PGgH8vy/screenshot-ibb-co-2020-05-14-19-17-38.png)
 
 ## Reference
 
