@@ -9,6 +9,8 @@
  * @author Gemblue
  */
 
+namespace Gemblue\Websocket;
+
 class WebSocket {
 
 	/** Props */
@@ -162,10 +164,10 @@ class WebSocket {
 		// Set address and port.
 		$address = $this->address;
 		$port = $this->port;
-
+		
 		// Log message
-		echo "Listening ..\n";
-
+		echo "Listening incoming request on port {$this->port}.. \n";
+		
 		// Unlimited loop.
 		while (true) 
 		{
@@ -191,6 +193,8 @@ class WebSocket {
 				// Beri pesan, ada client baru bergabung, ke semua connected client.
 				socket_getpeername($newSocket, $ip);
 				$this->send("Client dengan ip {$ip} baru saja bergabung");
+				
+				echo "Client dengan ip {$ip} baru saja bergabung \n";
 				
 				$index = array_search($this->server, $newClients);
 				unset($newClients[$index]);
@@ -227,6 +231,8 @@ class WebSocket {
 					// Beri pesan keluar.
 					socket_getpeername($newClientsResource, $ip);
 					$this->send("Client dengan ip {$ip} baru saja keluar");
+
+					echo "Client dengan ip {$ip} baru saja keluar \n";
 					
 					// Hapus current index dari connected client.
 					$index = array_search($newClientsResource, $this->clients);
@@ -238,8 +244,3 @@ class WebSocket {
 		socket_close($this->server);
 	}
 }
-
-$WebSocket = new WebSocket("127.0.0.1", 8090);
-$WebSocket->run();
-
-?>
