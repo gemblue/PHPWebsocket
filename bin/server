@@ -1,0 +1,32 @@
+#!/usr/bin/php
+
+<?php
+
+/**
+ * Server
+ * 
+ * Running a server
+ * 
+ * @author Gemblue
+ */
+
+// Require websocket ..
+require __DIR__ . '/../src/Websocket.php';
+
+// Init
+$port = 3000;
+
+// Parse command.
+$command = explode(':', $argv[1]);
+
+if ($command[0] == 'port') {
+    if (isset($command[1])) {
+        $port = $command[1];
+    }
+}
+
+// Create new websocket with address and port.
+$WebSocket = new \Gemblue\Websocket\WebSocket('127.0.0.1', $port);
+
+// Run socket.
+$WebSocket->run();
