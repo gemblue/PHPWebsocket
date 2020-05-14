@@ -138,7 +138,7 @@ class WebSocket {
 		$buffer  .= "Upgrade: websocket\r\n";
 		$buffer  .= "Connection: Upgrade\r\n";
 		$buffer  .= "WebSocket-Origin: $address\r\n";
-		$buffer  .= "WebSocket-Location: ws://$address:$port/demo/shout.php\r\n";
+		$buffer  .= "WebSocket-Location: ws://$address:$port/Server.php\r\n";
 		$buffer  .= "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
 
 		socket_write($socket,$buffer,strlen($buffer));
