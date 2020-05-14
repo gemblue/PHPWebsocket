@@ -30,8 +30,8 @@
 	}
 
 	$(document).ready(function(){
-		var websocket = new WebSocket("ws://localhost:8090/Server.php"); 
-		websocket.onopen = function(event) { 
+		var websocket = new WebSocket("ws://127.0.0.1:3000");
+		websocket.onopen = function(event) {
 			showMessage("<div class='text-success'>Berhasil masuk room ..</div>");		
 		}
 		websocket.onmessage = function(event) {
