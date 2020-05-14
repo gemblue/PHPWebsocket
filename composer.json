@@ -1,0 +1,25 @@
+{
+	"name": "gemblue/php-websocket",
+	"description": "Simple websocket library for learning purpose",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Ahmad Oriza Sahputra",
+			"email": "ahmadoriza@gmail.com"
+		}
+	],
+	"require": {
+		"php": "^7.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Gemblue\\Websocket\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Gemblue\\Websocket\\Test\\": "test/"
+		}
+	}
+}
