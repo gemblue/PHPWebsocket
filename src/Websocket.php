@@ -166,8 +166,8 @@ class WebSocket {
 		$port = $this->port;
 		
 		// Log message
-		echo "Listening incoming request on port {$this->port}.. \n";
-		
+		echo "Listening incoming request on port {$this->port} ..\n";
+
 		// Unlimited loop.
 		while (true) 
 		{
