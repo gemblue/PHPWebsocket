@@ -163,6 +163,9 @@ class WebSocket {
 		$address = $this->address;
 		$port = $this->port;
 
+		// Log message
+		echo "Listening ..\n";
+
 		// Unlimited loop.
 		while (true) 
 		{
@@ -200,7 +203,7 @@ class WebSocket {
 				{
 					// Jika ada data diterima, baru proses
 					if ($socketData) {
-
+						
 						// Terima data dari client, kemudian unseal dan decode json.
 						$socketMessage = $this->unseal($socketData);
 						$messageObj = json_decode($socketMessage);
@@ -211,7 +214,6 @@ class WebSocket {
 						}
 						
 						break 2;
-
 					}
 				}
 				
