@@ -1,6 +1,6 @@
 # PHPWebsocket
 
-Simple PHP Websocket for learning purpose. Just making a wrapper from PHP Socket API. Modifying source code from 
+Simple PHP Websocket Library / Server for Fun. Just making a wrapper from PHP Socket API. Modifying source code from 
 reference and making simple OOP for a clean code.
 
 ## Dependency
